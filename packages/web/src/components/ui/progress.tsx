@@ -5,7 +5,7 @@ export function ProgressBar({ value, max, color = "bg-primary" }: { value: numbe
   return (
     <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
       <div
-        className={cn("h-full rounded-full transition-all duration-700 ease-out", color, pct > 0 && "animate-progress-fill")}
+        className={cn("h-full rounded-full transition-all duration-200 ease-out", color, pct > 0 && "animate-progress-fill")}
         style={{ width: `${pct}%` }}
       />
     </div>
@@ -22,7 +22,7 @@ export function ProgressRing({ pct, size = 40 }: { pct: number; size?: number })
       <circle cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="currentColor" className="text-muted" strokeWidth="3" />
       <circle
         cx={size / 2} cy={size / 2} r={radius} fill="none" stroke="currentColor"
-        className={cn("text-primary transition-all duration-700 ease-out", pct === 100 && "text-emerald-500")}
+        className={cn("text-primary transition-all duration-200 ease-out", pct === 100 && "text-emerald-500")}
         strokeWidth="3" strokeLinecap="round"
         strokeDasharray={circumference} strokeDashoffset={offset}
         transform={`rotate(-90 ${size / 2} ${size / 2})`}

@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { useWeeklyReport } from "../../hooks/use-weekly-report";
 import { generateReport } from "../../lib/weekly-report";
 import { Button } from "../ui/button";
+import { Skeleton } from "../ui/skeleton";
 import { Copy, Check, Sparkles, FileText, X } from "lucide-react";
 import { cn } from "../../lib/utils";
 
@@ -30,8 +31,14 @@ function WeeklyReportDialog({ onClose }: { onClose: () => void }) {
   if (isLoading) {
     return (
       <Overlay onClose={onClose}>
-        <div className="p-8 text-center">
-          <p className="text-sm text-text-secondary">Generating report...</p>
+        <div className="p-8">
+          <Skeleton className="h-6 w-32 mb-4" />
+          <Skeleton className="h-4 w-full mb-2" />
+          <Skeleton className="h-4 w-3/4 mb-2" />
+          <Skeleton className="h-4 w-5/6 mb-4" />
+          <Skeleton className="h-4 w-full mb-2" />
+          <Skeleton className="h-4 w-2/3 mb-2" />
+          <Skeleton className="h-64 w-full" />
         </div>
       </Overlay>
     );

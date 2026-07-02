@@ -1,18 +1,53 @@
 import { useRevisionDashboard, useUpdateRevision, useDeleteRevision } from "../../hooks/use-revisions";
 import { useUIStore } from "../../stores/ui-store";
 import { cn } from "../../lib/utils";
+import { Skeleton } from "../ui/skeleton";
 import { Check, Trash2, FileText, Layers, AlertTriangle, Calendar, ChevronRight } from "lucide-react";
 import type { PopulatedRevision } from "../../types";
 
 export function RevisionDashboard() {
-  const { data, isLoading } = useRevisionDashboard();
+  const { data, isLoading, isError, refetch } = useRevisionDashboard();
   const selectSubject = useUIStore((s) => s.selectSubject);
 
   if (isLoading) {
     return (
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-3xl mx-auto px-12 py-10">
-          <p className="text-sm text-text-secondary">Loading revisions...</p>
+          <Skeleton className="h-8 w-48 mb-2" />
+          <Skeleton className="h-4 w-72 mb-8" />
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <Skeleton className="h-6 w-24 mb-3" />
+              {[1, 2, 3].map((i) => (
+                <Skeleton key={i} className="h-16 w-full" />
+              ))}
+            </div>
+            <div className="space-y-2">
+              <Skeleton className="h-6 w-20 mb-3" />
+              {[1, 2].map((i) => (
+                <Skeleton key={i} className="h-16 w-full" />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-3xl mx-auto px-12 py-10">
+          <div className="text-center py-16">
+            <h2 className="text-lg font-semibold text-text-primary mb-2">Failed to load revisions</h2>
+            <p className="text-sm text-text-secondary mb-4">Check your connection and try again.</p>
+            <button
+              onClick={() => refetch()}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-opacity"
+            >
+              Retry
+            </button>
+          </div>
         </div>
       </div>
     );
