@@ -9,6 +9,8 @@
     "dev:web": "npm run dev -w packages/web",
     "dev:server": "npm run dev -w packages/server",
     "build": "npm run build --workspaces --if-present",
+    "build:render": "npm run build -w packages/web && npm run build -w packages/server",
+    "start": "node packages/server/dist/index.js",
     "typecheck": "tsc --noEmit -p packages/server/tsconfig.json && tsc --noEmit -p packages/web/tsconfig.json",
     "lint": "eslint packages/server/src/**/*.ts packages/web/src/**/*.tsx packages/web/src/**/*.ts",
     "test": "npm run test -w packages/server && npm run test -w packages/web",

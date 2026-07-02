@@ -1,51 +1,67 @@
 # Deployment
 
-## Frontend (Vercel)
+The entire app (API + frontend) runs as a single Render Web Service backed by MongoDB Atlas.
 
-1. Push repository to GitHub
-2. Import project in Vercel
-3. Configure:
-   - **Framework:** Vite
-   - **Build Command:** `npm run build -w packages/web`
-   - **Output Directory:** `packages/web/dist`
-4. Add environment variable: `VITE_API_URL=https://your-backend.onrender.com`
+## One Service
 
-## Backend (Render)
+| Component | Platform |
+|-----------|----------|
+| API + Frontend | Render (single Web Service) |
+| Database | MongoDB Atlas |
 
-1. Create a new Web Service
-2. Connect to GitHub repository
-3. Configure:
-   - **Root Directory:** `packages/server`
-   - **Build Command:** `npm install && npm run build`
-   - **Start Command:** `npm start`
-4. Add environment variables (see `.env.production`):
-   ```
-   PORT=3001
-   HOST=0.0.0.0
-   MONGODB_URI=mongodb+srv://<user>:<pass>@cluster.mongodb.net/lecture-tracker
-   NODE_ENV=production
-   CLIENT_URL=https://your-app.vercel.app
-   LOG_LEVEL=warn
-   ```
+The server serves the built frontend files via `@fastify/static` with SPA fallback.
 
-## Database (MongoDB Atlas)
+## Deploy to Render
 
-1. Create an M7 cluster (Free tier)
-2. Create a database user with read/write permissions
-3. Whitelist Render's IP or use 0.0.0.0/0
-4. Copy the connection string into Render's `MONGODB_URI` env var
+### 1. Push to GitHub
 
-## Post-Deployment
+```bash
+git remote add origin https://github.com/YOUR_USERNAME/lecture-tracker.git
+git branch -M main
+git push -u origin main
+```
 
-1. Run `npm run db:seed` (set `MONGODB_URI` and run locally, or SSH into Render)
-2. Visit the Vercel URL
-3. Verify health endpoint: `https://your-backend.onrender.com/health`
+### 2. Create Render Web Service
 
-## Production Checklist
+- Go to [render.com](https://render.com) → New → Web Service
+- Connect your GitHub repository
+- Configure:
 
-- [ ] CORS: `CLIENT_URL` set to Vercel domain
-- [ ] Rate limiting: 100 req/min (already configured)
-- [ ] Helmet: Security headers enabled
-- [ ] MongoDB: Atlas IP whitelist configured
-- [ ] Environment: `NODE_ENV=production`
-- [ ] Logs: Pino JSON output in production
+| Setting | Value |
+|---------|-------|
+| **Name** | lecture-tracker |
+| **Root Directory** | (leave empty — project root) |
+| **Build Command** | `npm run build:render` |
+| **Start Command** | `npm start` |
+| **Plan** | Free |
+
+### 3. Environment Variables
+
+Add these in the Render dashboard under Environment:
+
+| Key | Value |
+|-----|-------|
+| `PORT` | `3001` |
+| `HOST` | `0.0.0.0` |
+| `MONGODB_URI` | `mongodb+srv://...` (your Atlas connection string) |
+| `NODE_ENV` | `production` |
+| `LOG_LEVEL` | `warn` |
+
+### 4. Deploy
+
+Click "Create Web Service" — Render will clone, install, build both packages, and start the server.
+
+### 5. Seed Subjects
+
+After deploy, seed subjects from your local machine:
+
+```bash
+set MONGODB_URI=mongodb+srv://...
+npx tsx packages/server/src/seed.ts
+```
+
+### 6. Visit
+
+Open your Render URL (`https://lecture-tracker.onrender.com`) — 12 subjects should appear.
+
+Verify health: `https://lecture-tracker.onrender.com/health` → `{"status":"ok"}`

@@ -13,6 +13,9 @@
 - Prioritize visual clarity over feature count — each view should convey its full progress picture within seconds, using large progress bars, clean typography, and simple inline editing rather than dedicated management interfaces. Confidence: 0.70
 - Prefer deleting code over adding code — reduce complexity rather than building more. Confidence: 0.70
 
+# deployment
+- Deploy entirely on Render (both frontend and backend), not split across Vercel + Render. Confidence: 0.60
+
 # react
 - Split components only when it improves readability; do not over-componentize. Avoid deeply nested prop chains. Confidence: 0.70
 

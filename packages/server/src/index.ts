@@ -2,6 +2,9 @@ import Fastify from "fastify";
 import cors from "@fastify/cors";
 import helmet from "@fastify/helmet";
 import rateLimit from "@fastify/rate-limit";
+import fastifyStatic from "@fastify/static";
+import path from "path";
+import { fileURLToPath } from "url";
 import { connectDB } from "./lib/db.js";
 import { registerErrorHandler } from "./lib/errors.js";
 import { subjectRoutes } from "./routes/subjects.js";
@@ -10,6 +13,7 @@ import { lectureRoutes } from "./routes/lectures.js";
 import { revisionRoutes } from "./routes/revisions.js";
 import { testRoutes } from "./routes/tests.js";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = parseInt(process.env.PORT || "3001");
 const host = process.env.HOST || "0.0.0.0";
 
@@ -22,7 +26,10 @@ const app = Fastify({
   },
 });
 
-await app.register(helmet);
+await app.register(helmet, {
+  contentSecurityPolicy: false,
+});
+
 await app.register(cors, {
   origin: process.env.CLIENT_URL || "*",
 });
@@ -31,8 +38,16 @@ await app.register(rateLimit, {
   timeWindow: "1 minute",
 });
 
-registerErrorHandler(app);
+// Serve built frontend assets
+const distPath = path.resolve(__dirname, "../../web/dist");
+await app.register(fastifyStatic, {
+  root: distPath,
+  prefix: "/",
+  wildcard: false,
+});
 
+// API routes
+registerErrorHandler(app);
 await app.register(subjectRoutes);
 await app.register(topicRoutes);
 await app.register(lectureRoutes);
@@ -41,6 +56,14 @@ await app.register(testRoutes);
 
 app.get("/health", async () => {
   return { status: "ok", uptime: process.uptime() };
+});
+
+// SPA fallback - serve index.html for all non-API routes
+app.setNotFoundHandler(async (request, reply) => {
+  if (request.url.startsWith("/api")) {
+    return reply.status(404).send({ error: "Not found" });
+  }
+  return reply.sendFile("index.html");
 });
 
 try {
