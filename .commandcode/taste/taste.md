@@ -15,6 +15,8 @@
 
 # deployment
 - Deploy entirely on Render (both frontend and backend), not split across Vercel + Render. Confidence: 0.60
+- When debugging production deployment failures, perform systematic root-cause analysis: audit code and configuration first, inspect files before making changes, and provide evidence-based diagnosis with confidence percentages — do not assume the platform is at fault without evidence. Confidence: 0.70
+- Add safe startup diagnostics for connection strings: log URI presence, length, extracted hostname (without credentials), and database name. Never log credentials or full connection strings. Validate URI format programmatically at startup. Confidence: 0.60
 
 # react
 - Split components only when it improves readability; do not over-componentize. Avoid deeply nested prop chains. Confidence: 0.70
