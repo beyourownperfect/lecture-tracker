@@ -389,9 +389,9 @@ function TopicCard({
       duration: parseInt(lectureDuration, 10) || 0,
     }, {
       onSuccess: () => {
-        setShowAddLecture(false);
         setLectureTitle("");
         setLectureDuration("");
+        lectureInputRef.current?.focus();
       },
     });
   }
@@ -629,24 +629,8 @@ function TopicCard({
               </div>
             </div>
 
-            {lectures.length === 0 ? (
-              <button
-                onClick={() => setShowAddLecture(true)}
-                className="w-full text-center py-8 border-2 border-dashed border-border rounded-xl hover:border-primary/40 hover:bg-muted/20 transition-all cursor-pointer"
-              >
-                <p className="text-sm font-medium text-text-secondary/60 mb-1">No lectures yet</p>
-                <p className="text-xs text-text-secondary/40">Click to add your first lecture and start tracking</p>
-              </button>
-            ) : (
-              <div className="space-y-0.5">
-                {lectures.map((lecture) => (
-                  <LectureRow key={lecture.id} lecture={lecture} topicId={topic.id} />
-                ))}
-              </div>
-            )}
-
-            {showAddLecture ? (
-              <div className="flex gap-2 items-center mt-2">
+            {showAddLecture && (
+              <div className="flex gap-2 items-center">
                 <Input
                   ref={lectureInputRef}
                   value={lectureTitle}
@@ -659,15 +643,14 @@ function TopicCard({
                       setLectureDuration("");
                     }
                   }}
-                  onBlur={handleAddLecture}
-                  placeholder="Lecture title..."
-                  className="h-9 text-sm flex-1"
+                  placeholder="Lecture title (Enter to add, Esc to close)..."
+                  className="h-11 text-sm flex-1"
                 />
                 <Input
                   value={lectureDuration}
                   onChange={(e) => setLectureDuration(e.target.value.replace(/\D/g, ""))}
                   placeholder="min"
-                  className="h-9 text-sm w-16"
+                  className="h-11 text-sm w-20 text-center"
                 />
                 <button
                   onClick={() => {
@@ -675,19 +658,29 @@ function TopicCard({
                     setLectureTitle("");
                     setLectureDuration("");
                   }}
-                  className="p-1.5 rounded hover:bg-muted transition-colors shrink-0"
+                  className="p-2 rounded hover:bg-muted transition-colors shrink-0"
+                  aria-label="Cancel"
                 >
                   <Trash2 className="w-4 h-4 text-text-secondary" />
                 </button>
               </div>
+            )}
+
+            {!showAddLecture && (
+              <Button size="sm" onClick={() => setShowAddLecture(true)} className="mb-3">
+                <Plus className="w-4 h-4 mr-1" />
+                Add Lecture
+              </Button>
+            )}
+
+            {lectures.length === 0 && !showAddLecture ? (
+              <p className="text-sm text-text-secondary py-4">No lectures yet. Use the button above to add your first lecture.</p>
             ) : (
-              <button
-                onClick={() => setShowAddLecture(true)}
-                className="w-full mt-2 flex items-center gap-2 px-3 py-2.5 text-sm text-text-secondary hover:text-text-primary hover:bg-muted/50 rounded-lg transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                Add lecture
-              </button>
+              <div className="space-y-0.5">
+                {lectures.map((lecture) => (
+                  <LectureRow key={lecture.id} lecture={lecture} topicId={topic.id} />
+                ))}
+              </div>
             )}
 
             <div className="mt-6 pt-4 border-t border-border">
