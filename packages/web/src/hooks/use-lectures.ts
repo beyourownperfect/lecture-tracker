@@ -5,7 +5,7 @@ import type { Lecture } from "../types";
 export function useLectures(topicId: string | null) {
   return useQuery<Lecture[]>({
     queryKey: ["lectures", topicId],
-    queryFn: () => api.get(`/api/topics/${topicId}/lectures`),
+    queryFn: () => api.get(`/topics/${topicId}/lectures`),
     enabled: !!topicId,
     staleTime: 30_000,
   });
@@ -15,7 +15,7 @@ export function useCreateLecture() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data: { title: string; topicId: string; duration?: number; order?: number }) =>
-      api.post<Lecture>("/api/lectures", data),
+      api.post<Lecture>("/lectures", data),
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: ["lectures", variables.topicId] });
       queryClient.invalidateQueries({ queryKey: ["topics"] });
@@ -37,7 +37,7 @@ export function useUpdateLecture() {
       order?: number;
       completed?: boolean;
       completedAt?: string | null;
-    }) => api.put<Lecture>(`/api/lectures/${id}`, data),
+    }) => api.put<Lecture>(`/lectures/${id}`, data),
     onMutate: async ({ id, ...data }) => {
       await queryClient.cancelQueries({ queryKey: ["lectures"] });
       const allLectureQueries = queryClient.getQueriesData<Lecture[]>({ queryKey: ["lectures"] });
@@ -70,7 +70,7 @@ export function useDeleteLecture() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (vars: { id: string; topicId: string }) =>
-      api.delete(`/api/lectures/${vars.id}`),
+      api.delete(`/lectures/${vars.id}`),
     onMutate: async ({ id }) => {
       await queryClient.cancelQueries({ queryKey: ["lectures"] });
       const allLectureQueries = queryClient.getQueriesData<Lecture[]>({ queryKey: ["lectures"] });

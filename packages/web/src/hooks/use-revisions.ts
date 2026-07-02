@@ -5,7 +5,7 @@ import type { Revision, RevisionType, RevisionDashboard, PopulatedRevision } fro
 export function useRevisionDashboard() {
   return useQuery<RevisionDashboard>({
     queryKey: ["revisions", "dashboard"],
-    queryFn: () => api.get("/api/revisions/dashboard"),
+    queryFn: () => api.get("/revisions/dashboard"),
     staleTime: 30_000,
   });
 }
@@ -17,7 +17,7 @@ export function useCreateRevision() {
       type: RevisionType;
       scheduledDate: string;
       lectureId: string;
-    }) => api.post<Revision>("/api/revisions", { ...data, completed: false }),
+    }) => api.post<Revision>("/revisions", { ...data, completed: false }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lectures"] });
       queryClient.invalidateQueries({ queryKey: ["revisions"] });
@@ -35,7 +35,7 @@ export function useUpdateRevision() {
       id: string;
       completed?: boolean;
       scheduledDate?: string;
-    }) => api.put<Revision>(`/api/revisions/${id}`, data),
+    }) => api.put<Revision>(`/revisions/${id}`, data),
     onMutate: async ({ id, ...data }) => {
       await queryClient.cancelQueries({ queryKey: ["revisions"] });
       const dashboardQuery = queryClient.getQueryData<RevisionDashboard>(["revisions", "dashboard"]);
@@ -65,7 +65,7 @@ export function useUpdateRevision() {
 export function useDeleteRevision() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (id: string) => api.delete(`/api/revisions/${id}`),
+    mutationFn: (id: string) => api.delete(`/revisions/${id}`),
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: ["revisions"] });
       const dashboardQuery = queryClient.getQueryData<RevisionDashboard>(["revisions", "dashboard"]);
