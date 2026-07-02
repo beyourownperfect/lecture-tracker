@@ -14,6 +14,7 @@ import { topicRoutes } from "./routes/topics.js";
 import { lectureRoutes } from "./routes/lectures.js";
 import { revisionRoutes } from "./routes/revisions.js";
 import { testRoutes } from "./routes/tests.js";
+import { weeklyReportRoutes } from "./routes/reports.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const port = parseInt(process.env.PORT || "3001");
@@ -55,6 +56,7 @@ await app.register(topicRoutes);
 await app.register(lectureRoutes);
 await app.register(revisionRoutes);
 await app.register(testRoutes);
+await app.register(weeklyReportRoutes);
 
 app.get("/health", async () => {
   return { status: "ok", uptime: process.uptime() };
