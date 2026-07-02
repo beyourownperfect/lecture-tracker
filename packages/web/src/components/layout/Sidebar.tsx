@@ -1,5 +1,6 @@
 import { useSubjects } from "../../hooks/use-subjects";
 import { useUIStore } from "../../stores/ui-store";
+import { ThemeToggle } from "../ui/theme-toggle";
 import { cn } from "../../lib/utils";
 import { formatDuration } from "../ui/progress";
 import type { Subject } from "../../types";
@@ -18,13 +19,16 @@ export function Sidebar() {
 
   return (
     <aside className="w-[320px] shrink-0 border-r border-border bg-surface flex flex-col">
-      <div className="px-6 pt-6 pb-3">
-        <h1 className="text-base font-semibold text-text-primary tracking-tight leading-tight">
-          GATE CSE
-        </h1>
-        <p className="text-sm text-text-secondary mt-0.5">
-          Lecture Tracker
-        </p>
+      <div className="px-6 pt-6 pb-3 flex items-start justify-between">
+        <div>
+          <h1 className="text-base font-semibold text-text-primary tracking-tight leading-tight">
+            GATE CSE
+          </h1>
+          <p className="text-sm text-text-secondary mt-0.5">
+            Lecture Tracker
+          </p>
+        </div>
+        <ThemeToggle />
       </div>
 
       <div className="px-4 pb-2">

@@ -11,6 +11,68 @@
     @apply border-border;
   }
 
+  :root {
+    --background: hsl(40 30% 98%);
+    --foreground: hsl(30 12% 15%);
+    --primary: hsl(24 95% 53%);
+    --primary-foreground: hsl(0 0% 100%);
+    --ring: hsl(24 95% 53% / 0.4);
+    --accent: hsl(35 80% 94%);
+    --accent-foreground: hsl(24 80% 30%);
+    --surface: hsl(0 0% 100%);
+    --text-primary: hsl(30 12% 15%);
+    --text-secondary: hsl(30 8% 40%);
+    --accent-light: hsl(35 80% 96%);
+    --success: hsl(140 50% 40%);
+    --success-light: hsl(140 50% 90%);
+    --border: hsl(35 20% 88%);
+    --muted: hsl(35 20% 94%);
+    --muted-foreground: hsl(30 8% 50%);
+    --input: hsl(35 20% 88%);
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(30 12% 15%);
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(30 12% 15%);
+    --secondary: hsl(35 20% 94%);
+    --secondary-foreground: hsl(30 12% 25%);
+    --destructive: hsl(0 70% 50%);
+    --destructive-foreground: hsl(0 0% 100%);
+    --revision-notes: hsl(220 70% 55%);
+    --revision-flashcards: hsl(270 60% 55%);
+    --pyq-amber: hsl(35 95% 50%);
+  }
+
+  .dark {
+    --background: hsl(30 8% 10%);
+    --foreground: hsl(40 20% 92%);
+    --primary: hsl(30 100% 52%);
+    --primary-foreground: hsl(30 10% 10%);
+    --ring: hsl(30 100% 52% / 0.4);
+    --accent: hsl(32 60% 20%);
+    --accent-foreground: hsl(32 100% 65%);
+    --surface: hsl(30 8% 14%);
+    --text-primary: hsl(40 20% 92%);
+    --text-secondary: hsl(35 10% 60%);
+    --accent-light: hsl(32 55% 16% / 0.5);
+    --success: hsl(140 45% 45%);
+    --success-light: hsl(140 40% 15%);
+    --border: hsl(30 8% 25%);
+    --muted: hsl(30 8% 22%);
+    --muted-foreground: hsl(30 8% 55%);
+    --input: hsl(30 8% 25%);
+    --card: hsl(30 8% 14%);
+    --card-foreground: hsl(40 20% 92%);
+    --popover: hsl(30 8% 14%);
+    --popover-foreground: hsl(40 20% 92%);
+    --secondary: hsl(30 8% 22%);
+    --secondary-foreground: hsl(40 20% 85%);
+    --destructive: hsl(0 65% 55%);
+    --destructive-foreground: hsl(40 20% 92%);
+    --revision-notes: hsl(220 60% 60%);
+    --revision-flashcards: hsl(270 55% 60%);
+    --pyq-amber: hsl(35 90% 55%);
+  }
+
   body {
     @apply bg-background text-text-primary;
     margin: 0;

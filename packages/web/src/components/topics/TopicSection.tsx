@@ -12,6 +12,7 @@ import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { ProgressBar, ProgressRing, formatDuration } from "../ui/progress";
 import { LectureRow } from "../lectures/LectureRow";
+import { BatchLectureInput } from "../lectures/BatchLectureInput";
 import { Plus, Pencil, Trash2, ChevronRight, Check } from "lucide-react";
 import { cn } from "../../lib/utils";
 
@@ -143,7 +144,7 @@ export function SubjectDetail() {
         </div>
 
         {adding && (
-          <div className="mb-4 flex gap-2">
+          <div className="mb-4 flex gap-2 items-center">
             <Input
               ref={addInputRef}
               value={newName}
@@ -155,10 +156,22 @@ export function SubjectDetail() {
                   setNewName("");
                 }
               }}
-              onBlur={handleAdd}
               placeholder="Topic name..."
-              className="h-10 text-sm"
+              className="h-10 text-sm flex-1"
             />
+            <Button size="sm" onClick={handleAdd} disabled={!newName.trim()}>
+              Save
+            </Button>
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => {
+                setAdding(false);
+                setNewName("");
+              }}
+            >
+              Cancel
+            </Button>
           </div>
         )}
 
@@ -342,6 +355,7 @@ function TopicCard({
   const deleteTopicTest = useDeleteTopicTest();
 
   const [showAddLecture, setShowAddLecture] = useState(false);
+  const [showBatchAdd, setShowBatchAdd] = useState(false);
   const [lectureTitle, setLectureTitle] = useState("");
   const [lectureDuration, setLectureDuration] = useState("");
   const lectureInputRef = useRef<HTMLInputElement>(null);
@@ -626,8 +640,15 @@ function TopicCard({
               </div>
             </div>
 
+            {showBatchAdd && (
+              <BatchLectureInput
+                topicId={topic.id}
+                onClose={() => setShowBatchAdd(false)}
+              />
+            )}
+
             {showAddLecture && (
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center mb-3">
                 <Input
                   ref={lectureInputRef}
                   value={lectureTitle}
@@ -663,15 +684,20 @@ function TopicCard({
               </div>
             )}
 
-            {!showAddLecture && (
-              <Button size="sm" onClick={() => setShowAddLecture(true)} className="mb-3">
-                <Plus className="w-4 h-4 mr-1" />
-                Add Lecture
-              </Button>
+            {!showAddLecture && !showBatchAdd && (
+              <div className="flex gap-2 mb-3">
+                <Button size="sm" onClick={() => { setShowAddLecture(true); setShowBatchAdd(false); }}>
+                  <Plus className="w-4 h-4 mr-1" />
+                  Add Lecture
+                </Button>
+                <Button size="sm" variant="ghost" onClick={() => { setShowBatchAdd(true); setShowAddLecture(false); }}>
+                  Batch Add
+                </Button>
+              </div>
             )}
 
-            {lectures.length === 0 && !showAddLecture ? (
-              <p className="text-sm text-text-secondary py-4">No lectures yet. Use the button above to add your first lecture.</p>
+            {lectures.length === 0 && !showAddLecture && !showBatchAdd ? (
+              <p className="text-sm text-text-secondary py-4">No lectures yet. Use the buttons above to add lectures.</p>
             ) : (
               <div className="space-y-0.5">
                 {lectures.map((lecture) => (
