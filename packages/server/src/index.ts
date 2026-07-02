@@ -6,6 +6,7 @@ import fastifyStatic from "@fastify/static";
 import path from "path";
 import { fileURLToPath } from "url";
 import { connectDB } from "./lib/db.js";
+import { seedSubjects } from "./seed.js";
 import { registerErrorHandler } from "./lib/errors.js";
 import { subjectRoutes } from "./routes/subjects.js";
 import { topicRoutes } from "./routes/topics.js";
@@ -68,6 +69,7 @@ app.setNotFoundHandler(async (request, reply) => {
 
 try {
   await connectDB();
+  await seedSubjects();
   await app.listen({ port, host });
 } catch (err) {
   app.log.fatal(err, "Failed to start server");

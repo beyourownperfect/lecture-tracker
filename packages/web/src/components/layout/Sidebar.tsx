@@ -89,16 +89,23 @@ export function Sidebar() {
       )}
 
       <div className="flex-1 overflow-y-auto px-4 pt-3 pb-4 scrollbar-thin">
-        <div className="space-y-0.5">
-          {subjects.map((subject) => (
-            <SubjectCard
-              key={subject.id}
-              subject={subject}
-              isSelected={selectedSubjectId === subject.id}
-              onSelect={() => selectSubject(subject.id)}
-            />
-          ))}
-        </div>
+        {subjects.length === 0 ? (
+          <div className="text-center py-8">
+            <p className="text-sm text-text-secondary mb-2">No subjects loaded</p>
+            <p className="text-xs text-text-secondary/50">Subjects should appear after server startup. If this persists, check the database connection.</p>
+          </div>
+        ) : (
+          <div className="space-y-0.5">
+            {subjects.map((subject) => (
+              <SubjectCard
+                key={subject.id}
+                subject={subject}
+                isSelected={selectedSubjectId === subject.id}
+                onSelect={() => selectSubject(subject.id)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </aside>
   );

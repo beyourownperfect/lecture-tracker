@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import { connectDB } from "./lib/db.js";
 import { Subject } from "./models/index.js";
 
-const PRESET_SUBJECTS = [
+export const PRESET_SUBJECTS = [
   "C Programming",
   "Data Structures",
   "Algorithms",
@@ -17,9 +17,7 @@ const PRESET_SUBJECTS = [
   "Discrete Mathematics",
 ];
 
-async function seed() {
-  await connectDB();
-
+export async function seedSubjects() {
   for (let i = 0; i < PRESET_SUBJECTS.length; i++) {
     await Subject.findOneAndUpdate(
       { name: PRESET_SUBJECTS[i] },
@@ -28,9 +26,13 @@ async function seed() {
     );
     console.log(`Seeded: ${PRESET_SUBJECTS[i]}`);
   }
-
-  await mongoose.disconnect();
   console.log("Seed complete");
+}
+
+async function seed() {
+  await connectDB();
+  await seedSubjects();
+  await mongoose.disconnect();
 }
 
 seed().catch((err) => {
