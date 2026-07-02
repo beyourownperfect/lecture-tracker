@@ -5,6 +5,7 @@ import { formatDuration } from "../ui/progress";
 import type { Subject } from "../../types";
 import { CalendarCheck, ClipboardList, BookOpen } from "lucide-react";
 import { WeeklyAISummary } from "./WeeklyAISummary";
+import { StudySnapshot } from "./StudySnapshot";
 
 export function Sidebar() {
   const { data: subjects = [] } = useSubjects();
@@ -93,6 +94,7 @@ export function Sidebar() {
       <div className="flex-1 overflow-y-auto px-4 pt-3 pb-4 scrollbar-thin">
         <div className="mb-3 pb-3 border-b border-border">
           <WeeklyAISummary />
+          <StudySnapshot />
         </div>
         {subjects.length === 0 ? (
           <div className="text-center py-8">
