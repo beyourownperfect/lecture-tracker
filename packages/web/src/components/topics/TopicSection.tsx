@@ -58,9 +58,10 @@ export function SubjectDetail() {
       return;
     }
     createTopic.mutate({ name, subjectId: selectedSubjectId }, {
-      onSuccess: () => {
+      onSuccess: (data) => {
         setAdding(false);
         setNewName("");
+        setExpandedTopicIds([...expandedTopicIds, data.id]);
       },
     });
   }
@@ -162,9 +163,13 @@ export function SubjectDetail() {
         )}
 
         {topics.length === 0 && !adding ? (
-          <div className="text-center py-20 text-text-secondary">
-            <p className="text-sm">No topics yet. Add one to start tracking lectures.</p>
-          </div>
+          <button
+            onClick={() => setAdding(true)}
+            className="w-full text-center py-16 border-2 border-dashed border-border rounded-xl hover:border-primary/40 hover:bg-muted/20 transition-all cursor-pointer"
+          >
+            <p className="text-sm font-medium text-text-secondary mb-1">No topics yet</p>
+            <p className="text-xs text-text-secondary/50">Click here or use the button above to create your first topic</p>
+          </button>
         ) : (
           <Accordion
             multiple
@@ -625,10 +630,13 @@ function TopicCard({
             </div>
 
             {lectures.length === 0 ? (
-              <div className="text-center py-10 border-2 border-dashed border-border rounded-xl mx-0">
-                <p className="text-sm text-text-secondary/60 mb-1">No lectures yet</p>
-                <p className="text-xs text-text-secondary/40">Add your first lecture to begin tracking progress</p>
-              </div>
+              <button
+                onClick={() => setShowAddLecture(true)}
+                className="w-full text-center py-8 border-2 border-dashed border-border rounded-xl hover:border-primary/40 hover:bg-muted/20 transition-all cursor-pointer"
+              >
+                <p className="text-sm font-medium text-text-secondary/60 mb-1">No lectures yet</p>
+                <p className="text-xs text-text-secondary/40">Click to add your first lecture and start tracking</p>
+              </button>
             ) : (
               <div className="space-y-0.5">
                 {lectures.map((lecture) => (
