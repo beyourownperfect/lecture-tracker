@@ -1,0 +1,23 @@
+{
+  "name": "lecture-tracker",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "dev:web": "npm run dev -w packages/web",
+    "dev:server": "npm run dev -w packages/server",
+    "build": "npm run build --workspaces --if-present",
+    "typecheck": "tsc --noEmit -p packages/server/tsconfig.json && tsc --noEmit -p packages/web/tsconfig.json",
+    "lint": "eslint packages/server/src/**/*.ts packages/web/src/**/*.tsx packages/web/src/**/*.ts",
+    "test": "npm run test -w packages/server && npm run test -w packages/web",
+    "ci": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "db:seed": "tsx packages/server/src/seed.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.6.0",
+    "typescript-eslint": "^8.62.1"
+  }
+}
