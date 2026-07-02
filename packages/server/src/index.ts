@@ -6,6 +6,7 @@ import fastifyStatic from "@fastify/static";
 import path from "path";
 import { fileURLToPath } from "url";
 import { connectDB } from "./lib/db.js";
+import mongoose from "mongoose";
 import { seedSubjects } from "./seed.js";
 import { registerErrorHandler } from "./lib/errors.js";
 import { subjectRoutes } from "./routes/subjects.js";
@@ -69,6 +70,11 @@ app.setNotFoundHandler(async (request, reply) => {
 
 try {
   await connectDB();
+  const connState = mongoose.connection.readyState;
+  console.log(`[DB] Connection state: ${connState} (0=disconnected, 1=connected, 2=connecting, 3=disconnecting)`);
+  if (connState !== 1) {
+    throw new Error(`MongoDB not connected (state: ${connState})`);
+  }
   await seedSubjects();
   await app.listen({ port, host });
 } catch (err) {

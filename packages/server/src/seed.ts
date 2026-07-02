@@ -29,13 +29,15 @@ export async function seedSubjects() {
   console.log("Seed complete");
 }
 
-async function seed() {
-  await connectDB();
-  await seedSubjects();
-  await mongoose.disconnect();
+// Run directly with `npm run db:seed`
+const isMain = process.argv[1]?.includes("seed");
+if (isMain) {
+  (async () => {
+    await connectDB();
+    await seedSubjects();
+    await mongoose.disconnect();
+  })().catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
 }
-
-seed().catch((err) => {
-  console.error(err);
-  process.exit(1);
-});

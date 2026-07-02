@@ -3,7 +3,15 @@ import { ZodError } from "zod";
 
 export function registerErrorHandler(app: FastifyInstance) {
   app.setErrorHandler(
-    (error: FastifyError | ZodError, _request: FastifyRequest, reply: FastifyReply) => {
+    (error: FastifyError | ZodError, request: FastifyRequest, reply: FastifyReply) => {
+      app.log.error({
+        path: request.url,
+        method: request.method,
+        type: error.constructor.name,
+        message: error.message,
+        stack: error.stack,
+      }, error.message);
+
       if (error instanceof ZodError) {
         return reply.status(400).send({
           error: "Validation Error",
