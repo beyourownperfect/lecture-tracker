@@ -3,7 +3,7 @@ import { useUIStore } from "../../stores/ui-store";
 import { cn } from "../../lib/utils";
 import { formatDuration } from "../ui/progress";
 import type { Subject } from "../../types";
-import { CalendarCheck, ClipboardList } from "lucide-react";
+import { CalendarCheck, ClipboardList, BookOpen } from "lucide-react";
 
 export function Sidebar() {
   const { data: subjects = [] } = useSubjects();
@@ -29,18 +29,19 @@ export function Sidebar() {
         <button
           onClick={() => setView("subjects")}
           className={cn(
-            "w-full text-left rounded-lg px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer",
+            "w-full text-left rounded-lg px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-ring/50 outline-none",
             view === "subjects"
               ? "bg-accent-light text-primary ring-1 ring-primary/20"
               : "hover:bg-muted text-text-secondary",
           )}
         >
+          <BookOpen className="w-4 h-4" />
           Subjects
         </button>
         <button
           onClick={() => setView("revisions")}
           className={cn(
-            "w-full text-left rounded-lg px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer flex items-center gap-2",
+            "w-full text-left rounded-lg px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-ring/50 outline-none",
             view === "revisions"
               ? "bg-accent-light text-primary ring-1 ring-primary/20"
               : "hover:bg-muted text-text-secondary",
@@ -52,7 +53,7 @@ export function Sidebar() {
         <button
           onClick={() => setView("tests")}
           className={cn(
-            "w-full text-left rounded-lg px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer flex items-center gap-2",
+            "w-full text-left rounded-lg px-4 py-2.5 text-sm font-medium transition-colors cursor-pointer flex items-center gap-2 focus-visible:ring-2 focus-visible:ring-ring/50 outline-none",
             view === "tests"
               ? "bg-accent-light text-primary ring-1 ring-primary/20"
               : "hover:bg-muted text-text-secondary",
@@ -130,7 +131,7 @@ function SubjectCard({
     <button
       onClick={onSelect}
       className={cn(
-        "w-full text-left rounded-lg px-4 py-3 transition-colors cursor-pointer",
+        "w-full text-left rounded-lg px-4 py-3 transition-colors cursor-pointer focus-visible:ring-2 focus-visible:ring-ring/50 outline-none",
         isSelected
           ? "bg-accent-light ring-1 ring-primary/20"
           : "hover:bg-muted",
@@ -156,7 +157,7 @@ function SubjectCard({
         <div>
           <div className="w-full h-1 bg-muted rounded-full overflow-hidden">
             <div
-              className="h-full bg-primary rounded-full transition-all duration-700 ease-out"
+              className="h-full bg-primary rounded-full transition-all duration-300 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>

@@ -276,17 +276,14 @@ function TestRow({
       <button
         onClick={() => onToggleComplete(!test.completed)}
         className={cn(
-          "w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors cursor-pointer",
+          "w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-colors cursor-pointer",
           test.completed
             ? "bg-primary border-primary text-primary-foreground"
             : "border-border hover:border-primary",
         )}
+        aria-label={test.completed ? "Mark as incomplete" : "Mark as complete"}
       >
-        {test.completed && (
-          <svg className="w-2.5 h-2.5" viewBox="0 0 12 12" fill="none">
-            <path d="M2.5 6L5 8.5L9.5 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        )}
+        {test.completed && <Check className="w-3 h-3" />}
       </button>
       <span className={cn("text-sm flex-1", test.completed && "line-through text-text-secondary")}>
         {test.name}
@@ -578,7 +575,7 @@ function TopicCard({
                           }
                         }}
                         onBlur={handleSavePyqSolved}
-                        className="w-10 h-6 text-center text-xs border border-border rounded bg-surface focus:outline-none focus:ring-1 focus:ring-primary tabular-nums"
+                        className="w-10 h-6 text-center text-xs border border-border rounded bg-surface focus:outline-none focus:ring-2 focus:ring-ring/50 focus:border-ring transition-colors tabular-nums"
                       />
                     </div>
                   ) : (
@@ -609,7 +606,7 @@ function TopicCard({
                         }
                       }}
                       onBlur={handleSavePyqTotal}
-                      className="w-10 h-6 text-center text-xs border border-border rounded bg-surface focus:outline-none focus:ring-1 focus:ring-primary tabular-nums"
+                      className="w-10 h-6 text-center text-xs border border-border rounded bg-surface focus:outline-none focus:ring-2 focus:ring-ring/50 focus:border-ring transition-colors tabular-nums"
                       onClick={(e) => e.stopPropagation()}
                     />
                   )}
@@ -734,13 +731,14 @@ function TopicCard({
                       <button
                         onClick={() => updateTopicTest.mutate({ id: test.id, completed: !test.completed })}
                         className={cn(
-                          "w-3.5 h-3.5 rounded border flex items-center justify-center shrink-0 transition-colors cursor-pointer",
+                          "w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors cursor-pointer",
                           test.completed
                             ? "bg-primary border-primary text-primary-foreground"
                             : "border-border hover:border-primary",
                         )}
+                        aria-label={test.completed ? "Mark as incomplete" : "Mark as complete"}
                       >
-                        {test.completed && <Check className="w-2.5 h-2.5" />}
+                        {test.completed && <Check className="w-3 h-3" />}
                       </button>
                       <span className={cn("flex-1", test.completed && "line-through text-text-secondary")}>
                         {test.name}

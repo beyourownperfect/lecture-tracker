@@ -162,13 +162,13 @@ export function TestDashboard() {
                   }}
                   onBlur={handleAddMock}
                   placeholder="Mock test name..."
-                  className="flex-1 h-9 px-3 text-sm border border-border rounded-lg bg-surface focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="flex-1 h-9 px-3 text-sm border border-border rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-ring/50 focus:border-ring transition-colors"
                 />
                 <input
                   value={mockScore}
                   onChange={(e) => setMockScore(e.target.value.replace(/[^\d.]/g, ""))}
                   placeholder="Score"
-                  className="w-20 h-9 px-3 text-sm border border-border rounded-lg bg-surface focus:outline-none focus:ring-1 focus:ring-primary"
+                  className="w-20 h-9 px-3 text-sm border border-border rounded-lg bg-surface focus:outline-none focus:ring-2 focus:ring-ring/50 focus:border-ring transition-colors"
                 />
               </div>
             )}
@@ -292,7 +292,7 @@ function TestRow({
             }
           }}
           onBlur={saveScore}
-          className="w-16 h-7 text-center text-xs border border-border rounded bg-surface focus:outline-none focus:ring-1 focus:ring-primary tabular-nums"
+          className="w-16 h-7 text-center text-xs border border-border rounded bg-surface focus:outline-none focus:ring-2 focus:ring-ring/50 focus:border-ring transition-colors tabular-nums"
         />
       ) : (
         <button

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useMockTests, useCreateMockTest, useUpdateMockTest, useDeleteMockTest } from "../../hooks/use-tests";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { Trash2, Plus } from "lucide-react";
+import { Trash2, Plus, Check } from "lucide-react";
 import { cn } from "../../lib/utils";
 
 export function GlobalTests() {
@@ -92,17 +92,14 @@ export function GlobalTests() {
               <button
                 onClick={() => updateMockTest.mutate({ id: test.id, completed: !test.completed })}
                 className={cn(
-                  "w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors cursor-pointer",
+                  "w-5 h-5 rounded border-2 flex items-center justify-center shrink-0 transition-colors cursor-pointer",
                   test.completed
                     ? "bg-primary border-primary text-primary-foreground"
                     : "border-border hover:border-primary",
                 )}
+                aria-label={test.completed ? "Mark as incomplete" : "Mark as complete"}
               >
-                {test.completed && (
-                  <svg className="w-2.5 h-2.5" viewBox="0 0 12 12" fill="none">
-                    <path d="M2.5 6L5 8.5L9.5 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                )}
+                {test.completed && <Check className="w-3 h-3" />}
               </button>
               <span className={cn("text-sm flex-1", test.completed && "line-through text-text-secondary")}>
                 {test.name}

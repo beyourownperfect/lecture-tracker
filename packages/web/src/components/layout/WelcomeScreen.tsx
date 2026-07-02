@@ -1,4 +1,5 @@
 import { useSubjects } from "../../hooks/use-subjects";
+import { formatDuration } from "../ui/progress";
 
 export function WelcomeScreen() {
   const { data: subjects = [] } = useSubjects();
@@ -58,7 +59,7 @@ export function WelcomeScreen() {
             {totalDuration > 0 && (
               <div className="col-span-3 text-center">
                 <p className="text-xs text-text-secondary">
-                  {formatMinutes(completedDuration)} of {formatMinutes(totalDuration)} completed
+                  {formatDuration(completedDuration)} of {formatDuration(totalDuration)} completed
                 </p>
               </div>
             )}
@@ -67,11 +68,4 @@ export function WelcomeScreen() {
       </div>
     </div>
   );
-}
-
-function formatMinutes(minutes: number): string {
-  if (minutes < 60) return `${minutes}m`;
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-  return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`;
 }
